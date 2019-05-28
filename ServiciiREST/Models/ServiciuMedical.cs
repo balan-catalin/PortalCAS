@@ -14,8 +14,17 @@ namespace ServiciiREST.Models
     
     public partial class ServiciuMedical
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ServiciuMedical()
+        {
+            this.DateRaportSpital = new HashSet<DateRaportSpital>();
+        }
+    
         public string CodServiciu { get; set; }
         public string NumeServiciu { get; set; }
         public double CostServiciu { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DateRaportSpital> DateRaportSpital { get; set; }
     }
 }

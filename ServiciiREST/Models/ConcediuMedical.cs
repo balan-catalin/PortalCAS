@@ -14,8 +14,11 @@ namespace ServiciiREST.Models
     
     public partial class ConcediuMedical
     {
+        public int Id { get; set; }
         public string CNP { get; set; }
         public System.DateTime DataIncepu { get; set; }
         public System.DateTime DataSfarsit { get; set; }
+    
+        public virtual Asigurat Asigurat { get; set; }
     }
 }

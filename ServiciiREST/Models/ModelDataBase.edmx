@@ -9,17 +9,18 @@
           <Key>
             <PropertyRef Name="CNP" />
           </Key>
-          <Property Name="CNP" Type="nchar" MaxLength="20" Nullable="false" />
-          <Property Name="Nume" Type="nchar" MaxLength="30" Nullable="false" />
-          <Property Name="Prenume" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="CNP" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nume" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prenume" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="StareAsigurat" Type="bit" Nullable="false" />
-          <Property Name="IdStatut" Type="nchar" MaxLength="10" />
+          <Property Name="IdStatut" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ConcediuMedical">
           <Key>
-            <PropertyRef Name="CNP" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="CNP" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CNP" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DataIncepu" Type="date" Nullable="false" />
           <Property Name="DataSfarsit" Type="date" Nullable="false" />
         </EntityType>
@@ -28,38 +29,38 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CodSpital" Type="nchar" MaxLength="20" Nullable="false" />
-          <Property Name="CNP" Type="nchar" MaxLength="20" Nullable="false" />
-          <Property Name="NumarCaz" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="DataInchidereCaz" Type="date" Nullable="false" />
-          <Property Name="CodDiagnosticPrincipal" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="CodInvestigatie" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="CostAditionalInvestigatie" Type="float" Nullable="false" />
-          <Property Name="CodServiciuMedical" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="CostAditionalServiciuMedical" Type="float" Nullable="false" />
+          <Property Name="CodSpital" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CNP" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NumarCaz" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DataInchidereCaz" Type="date" />
+          <Property Name="CodDiagnosticPrincipal" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CodInvestigatie" Type="nvarchar" MaxLength="50" />
+          <Property Name="CostAditionalInvestigatie" Type="float" />
+          <Property Name="CodServiciuMedical" Type="nvarchar" MaxLength="50" />
+          <Property Name="CostAditionalServiciuMedical" Type="float" />
         </EntityType>
         <EntityType Name="Investigatie">
           <Key>
             <PropertyRef Name="CodInvestigatie" />
           </Key>
-          <Property Name="CodInvestigatie" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="NumeInvestigatie" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CodInvestigatie" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NumeInvestigatie" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CostInvestigatie" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="ServiciuMedical">
           <Key>
             <PropertyRef Name="CodServiciu" />
           </Key>
-          <Property Name="CodServiciu" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="NumeServiciu" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CodServiciu" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NumeServiciu" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CostServiciu" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="Statut">
           <Key>
             <PropertyRef Name="IdStatut" />
           </Key>
-          <Property Name="IdStatut" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="Denumire" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="IdStatut" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Denumire" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'PortalCas.sys.database_firewall_rules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -91,6 +92,42 @@ warning 6002: The table/view 'PortalCas.sys.database_firewall_rules' does not ha
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ConcediuMedical_Asigurat">
+          <End Role="Asigurat" Type="Self.Asigurat" Multiplicity="1" />
+          <End Role="ConcediuMedical" Type="Self.ConcediuMedical" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asigurat">
+              <PropertyRef Name="CNP" />
+            </Principal>
+            <Dependent Role="ConcediuMedical">
+              <PropertyRef Name="CNP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DateRaportSpital_Investigatie">
+          <End Role="Investigatie" Type="Self.Investigatie" Multiplicity="0..1" />
+          <End Role="DateRaportSpital" Type="Self.DateRaportSpital" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Investigatie">
+              <PropertyRef Name="CodInvestigatie" />
+            </Principal>
+            <Dependent Role="DateRaportSpital">
+              <PropertyRef Name="CodInvestigatie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DateRaportSpital_ServiciuMedical">
+          <End Role="ServiciuMedical" Type="Self.ServiciuMedical" Multiplicity="0..1" />
+          <End Role="DateRaportSpital" Type="Self.DateRaportSpital" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiciuMedical">
+              <PropertyRef Name="CodServiciu" />
+            </Principal>
+            <Dependent Role="DateRaportSpital">
+              <PropertyRef Name="CodServiciuMedical" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="PortalCasModelStoreContainer">
           <EntitySet Name="Asigurat" EntityType="Self.Asigurat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ConcediuMedical" EntityType="Self.ConcediuMedical" Schema="dbo" store:Type="Tables" />
@@ -112,56 +149,47 @@ warning 6002: The table/view 'PortalCas.sys.database_firewall_rules' does not ha
             <End Role="Statut" EntitySet="Statut" />
             <End Role="Asigurat" EntitySet="Asigurat" />
           </AssociationSet>
+          <AssociationSet Name="FK_ConcediuMedical_Asigurat" Association="Self.FK_ConcediuMedical_Asigurat">
+            <End Role="Asigurat" EntitySet="Asigurat" />
+            <End Role="ConcediuMedical" EntitySet="ConcediuMedical" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DateRaportSpital_Investigatie" Association="Self.FK_DateRaportSpital_Investigatie">
+            <End Role="Investigatie" EntitySet="Investigatie" />
+            <End Role="DateRaportSpital" EntitySet="DateRaportSpital" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DateRaportSpital_ServiciuMedical" Association="Self.FK_DateRaportSpital_ServiciuMedical">
+            <End Role="ServiciuMedical" EntitySet="ServiciuMedical" />
+            <End Role="DateRaportSpital" EntitySet="DateRaportSpital" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PortalCasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="ConcediuMedical">
-          <Key>
-            <PropertyRef Name="CNP" />
-          </Key>
-          <Property Name="CNP" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="DataIncepu" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="DataSfarsit" Type="DateTime" Nullable="false" Precision="0" />
-        </EntityType>
-        <EntityType Name="DateRaportSpital">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CodSpital" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="CNP" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="NumarCaz" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="DataInchidereCaz" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="CodDiagnosticPrincipal" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="CodInvestigatie" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="CostAditionalInvestigatie" Type="Double" Nullable="false" />
-          <Property Name="CodServiciuMedical" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="CostAditionalServiciuMedical" Type="Double" Nullable="false" />
-        </EntityType>
         <EntityType Name="Investigatie">
           <Key>
             <PropertyRef Name="CodInvestigatie" />
           </Key>
-          <Property Name="CodInvestigatie" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="NumeInvestigatie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CodInvestigatie" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NumeInvestigatie" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CostInvestigatie" Type="Double" Nullable="false" />
+          <NavigationProperty Name="DateRaportSpital" Relationship="PortalCasModel.FK_DateRaportSpital_Investigatie" FromRole="Investigatie" ToRole="DateRaportSpital" />
         </EntityType>
         <EntityType Name="ServiciuMedical">
           <Key>
             <PropertyRef Name="CodServiciu" />
           </Key>
-          <Property Name="CodServiciu" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="NumeServiciu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CodServiciu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NumeServiciu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CostServiciu" Type="Double" Nullable="false" />
+          <NavigationProperty Name="DateRaportSpital" Relationship="PortalCasModel.FK_DateRaportSpital_ServiciuMedical" FromRole="ServiciuMedical" ToRole="DateRaportSpital" />
         </EntityType>
         <EntityType Name="Statut">
           <Key>
             <PropertyRef Name="IdStatut" />
           </Key>
-          <Property Name="IdStatut" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Denumire" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="IdStatut" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Denumire" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Asigurat" Relationship="PortalCasModel.FK_Asigurat_Statut" FromRole="Statut" ToRole="Asigurat" />
         </EntityType>
         <EntityType Name="database_firewall_rules">
@@ -181,8 +209,6 @@ warning 6002: The table/view 'PortalCas.sys.database_firewall_rules' does not ha
           <Property Name="modify_date" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityContainer Name="PortalCasEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ConcediuMedical" EntityType="Self.ConcediuMedical" />
-          <EntitySet Name="DateRaportSpital" EntityType="Self.DateRaportSpital" />
           <EntitySet Name="Investigatie" EntityType="Self.Investigatie" />
           <EntitySet Name="ServiciuMedical" EntityType="Self.ServiciuMedical" />
           <EntitySet Name="Statut" EntityType="Self.Statut" />
@@ -192,17 +218,32 @@ warning 6002: The table/view 'PortalCas.sys.database_firewall_rules' does not ha
             <End Role="Statut" EntitySet="Statut" />
             <End Role="Asigurat" EntitySet="Asigurat" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="ConcediuMedical" EntityType="PortalCasModel.ConcediuMedical" />
+          <AssociationSet Name="FK_ConcediuMedical_Asigurat" Association="PortalCasModel.FK_ConcediuMedical_Asigurat">
+            <End Role="Asigurat" EntitySet="Asigurat" />
+            <End Role="ConcediuMedical" EntitySet="ConcediuMedical" />
+          </AssociationSet>
+          <EntitySet Name="DateRaportSpital" EntityType="PortalCasModel.DateRaportSpital" />
+          <AssociationSet Name="FK_DateRaportSpital_Investigatie" Association="PortalCasModel.FK_DateRaportSpital_Investigatie">
+            <End Role="Investigatie" EntitySet="Investigatie" />
+            <End Role="DateRaportSpital" EntitySet="DateRaportSpital" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DateRaportSpital_ServiciuMedical" Association="PortalCasModel.FK_DateRaportSpital_ServiciuMedical">
+            <End Role="ServiciuMedical" EntitySet="ServiciuMedical" />
+            <End Role="DateRaportSpital" EntitySet="DateRaportSpital" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Asigurat">
           <Key>
             <PropertyRef Name="CNP" />
           </Key>
-          <Property Name="CNP" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
-          <Property Name="Nume" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
-          <Property Name="Prenume" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="CNP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Nume" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Prenume" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="StareAsigurat" Type="Boolean" Nullable="false" />
-          <Property Name="IdStatut" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="IdStatut" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Statut" Relationship="PortalCasModel.FK_Asigurat_Statut" FromRole="Asigurat" ToRole="Statut" />
+          <NavigationProperty Name="ConcediuMedical" Relationship="PortalCasModel.FK_ConcediuMedical_Asigurat" FromRole="Asigurat" ToRole="ConcediuMedical" />
         </EntityType>
         <Association Name="FK_Asigurat_Statut">
           <End Type="PortalCasModel.Statut" Role="Statut" Multiplicity="0..1" />
@@ -216,37 +257,75 @@ warning 6002: The table/view 'PortalCas.sys.database_firewall_rules' does not ha
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="ConcediuMedical">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CNP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DataIncepu" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DataSfarsit" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Asigurat" Relationship="PortalCasModel.FK_ConcediuMedical_Asigurat" FromRole="ConcediuMedical" ToRole="Asigurat" />
+        </EntityType>
+        <Association Name="FK_ConcediuMedical_Asigurat">
+          <End Type="PortalCasModel.Asigurat" Role="Asigurat" Multiplicity="1" />
+          <End Type="PortalCasModel.ConcediuMedical" Role="ConcediuMedical" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asigurat">
+              <PropertyRef Name="CNP" />
+            </Principal>
+            <Dependent Role="ConcediuMedical">
+              <PropertyRef Name="CNP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DateRaportSpital">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodSpital" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CNP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NumarCaz" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DataInchidereCaz" Type="DateTime" Precision="0" />
+          <Property Name="CodDiagnosticPrincipal" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CodInvestigatie" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CostAditionalInvestigatie" Type="Double" />
+          <Property Name="CodServiciuMedical" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CostAditionalServiciuMedical" Type="Double" />
+          <NavigationProperty Name="Investigatie" Relationship="PortalCasModel.FK_DateRaportSpital_Investigatie" FromRole="DateRaportSpital" ToRole="Investigatie" />
+          <NavigationProperty Name="ServiciuMedical" Relationship="PortalCasModel.FK_DateRaportSpital_ServiciuMedical" FromRole="DateRaportSpital" ToRole="ServiciuMedical" />
+        </EntityType>
+        <Association Name="FK_DateRaportSpital_Investigatie">
+          <End Type="PortalCasModel.Investigatie" Role="Investigatie" Multiplicity="0..1" />
+          <End Type="PortalCasModel.DateRaportSpital" Role="DateRaportSpital" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Investigatie">
+              <PropertyRef Name="CodInvestigatie" />
+            </Principal>
+            <Dependent Role="DateRaportSpital">
+              <PropertyRef Name="CodInvestigatie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DateRaportSpital_ServiciuMedical">
+          <End Type="PortalCasModel.ServiciuMedical" Role="ServiciuMedical" Multiplicity="0..1" />
+          <End Type="PortalCasModel.DateRaportSpital" Role="DateRaportSpital" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiciuMedical">
+              <PropertyRef Name="CodServiciu" />
+            </Principal>
+            <Dependent Role="DateRaportSpital">
+              <PropertyRef Name="CodServiciuMedical" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="PortalCasModelStoreContainer" CdmEntityContainer="PortalCasEntities">
-          <EntitySetMapping Name="ConcediuMedical">
-            <EntityTypeMapping TypeName="PortalCasModel.ConcediuMedical">
-              <MappingFragment StoreEntitySet="ConcediuMedical">
-                <ScalarProperty Name="CNP" ColumnName="CNP" />
-                <ScalarProperty Name="DataIncepu" ColumnName="DataIncepu" />
-                <ScalarProperty Name="DataSfarsit" ColumnName="DataSfarsit" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DateRaportSpital">
-            <EntityTypeMapping TypeName="PortalCasModel.DateRaportSpital">
-              <MappingFragment StoreEntitySet="DateRaportSpital">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="CodSpital" ColumnName="CodSpital" />
-                <ScalarProperty Name="CNP" ColumnName="CNP" />
-                <ScalarProperty Name="NumarCaz" ColumnName="NumarCaz" />
-                <ScalarProperty Name="DataInchidereCaz" ColumnName="DataInchidereCaz" />
-                <ScalarProperty Name="CodDiagnosticPrincipal" ColumnName="CodDiagnosticPrincipal" />
-                <ScalarProperty Name="CodInvestigatie" ColumnName="CodInvestigatie" />
-                <ScalarProperty Name="CostAditionalInvestigatie" ColumnName="CostAditionalInvestigatie" />
-                <ScalarProperty Name="CodServiciuMedical" ColumnName="CodServiciuMedical" />
-                <ScalarProperty Name="CostAditionalServiciuMedical" ColumnName="CostAditionalServiciuMedical" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Investigatie">
             <EntityTypeMapping TypeName="PortalCasModel.Investigatie">
               <MappingFragment StoreEntitySet="Investigatie">
@@ -293,6 +372,32 @@ warning 6002: The table/view 'PortalCas.sys.database_firewall_rules' does not ha
                 <ScalarProperty Name="Prenume" ColumnName="Prenume" />
                 <ScalarProperty Name="Nume" ColumnName="Nume" />
                 <ScalarProperty Name="CNP" ColumnName="CNP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConcediuMedical">
+            <EntityTypeMapping TypeName="PortalCasModel.ConcediuMedical">
+              <MappingFragment StoreEntitySet="ConcediuMedical">
+                <ScalarProperty Name="DataSfarsit" ColumnName="DataSfarsit" />
+                <ScalarProperty Name="DataIncepu" ColumnName="DataIncepu" />
+                <ScalarProperty Name="CNP" ColumnName="CNP" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DateRaportSpital">
+            <EntityTypeMapping TypeName="PortalCasModel.DateRaportSpital">
+              <MappingFragment StoreEntitySet="DateRaportSpital">
+                <ScalarProperty Name="CostAditionalServiciuMedical" ColumnName="CostAditionalServiciuMedical" />
+                <ScalarProperty Name="CodServiciuMedical" ColumnName="CodServiciuMedical" />
+                <ScalarProperty Name="CostAditionalInvestigatie" ColumnName="CostAditionalInvestigatie" />
+                <ScalarProperty Name="CodInvestigatie" ColumnName="CodInvestigatie" />
+                <ScalarProperty Name="CodDiagnosticPrincipal" ColumnName="CodDiagnosticPrincipal" />
+                <ScalarProperty Name="DataInchidereCaz" ColumnName="DataInchidereCaz" />
+                <ScalarProperty Name="NumarCaz" ColumnName="NumarCaz" />
+                <ScalarProperty Name="CNP" ColumnName="CNP" />
+                <ScalarProperty Name="CodSpital" ColumnName="CodSpital" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

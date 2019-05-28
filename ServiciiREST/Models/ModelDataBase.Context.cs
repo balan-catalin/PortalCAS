@@ -25,12 +25,12 @@ namespace ServiciiREST.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<ConcediuMedical> ConcediuMedical { get; set; }
-        public virtual DbSet<DateRaportSpital> DateRaportSpital { get; set; }
         public virtual DbSet<Investigatie> Investigatie { get; set; }
         public virtual DbSet<ServiciuMedical> ServiciuMedical { get; set; }
         public virtual DbSet<Statut> Statut { get; set; }
         public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
         public virtual DbSet<Asigurat> Asigurat { get; set; }
+        public virtual DbSet<ConcediuMedical> ConcediuMedical { get; set; }
+        public virtual DbSet<DateRaportSpital> DateRaportSpital { get; set; }
     }
 }

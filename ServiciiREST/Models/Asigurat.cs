@@ -14,6 +14,12 @@ namespace ServiciiREST.Models
     
     public partial class Asigurat
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Asigurat()
+        {
+            this.ConcediuMedical = new HashSet<ConcediuMedical>();
+        }
+    
         public string CNP { get; set; }
         public string Nume { get; set; }
         public string Prenume { get; set; }
@@ -21,5 +27,7 @@ namespace ServiciiREST.Models
         public string IdStatut { get; set; }
     
         public virtual Statut Statut { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ConcediuMedical> ConcediuMedical { get; set; }
     }
 }

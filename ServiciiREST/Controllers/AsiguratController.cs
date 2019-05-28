@@ -22,17 +22,13 @@ namespace ServiciiREST.Controllers
             return db.Asigurat;
         }
 
-        // GET: api/Asigurat/5
-        [ResponseType(typeof(Asigurat))]
-        public IHttpActionResult GetAsigurat(string id)
+        // GET: api/GetStareByID/123456789
+        [ResponseType(typeof(bool))]
+        public bool GetStareByID(string CNP)
         {
-            Asigurat asigurat = db.Asigurat.Find(id);
-            if (asigurat == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(asigurat);
+            Asigurat asg = db.Asigurat.Where(x => x.CNP.Equals(CNP)).FirstOrDefault();
+            if (asg == null) return false;
+            else return asg.StareAsigurat;
         }
        
         protected override void Dispose(bool disposing)

@@ -5,15 +5,18 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="7e8ec6b399d445e7abbf34f056a3b13c" Name="Diagram1">
-        <EntityTypeShape EntityType="PortalCasModel.ConcediuMedical" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PortalCasModel.DateRaportSpital" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PortalCasModel.Investigatie" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PortalCasModel.ServiciuMedical" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PortalCasModel.Statut" Width="1.5" PointX="0.625" PointY="0.625" IsExpanded="true" />
         <EntityTypeShape EntityType="PortalCasModel.database_firewall_rules" Width="2.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PortalCasModel.Asigurat" Width="1.5" PointX="2.875" PointY="1.375" />
         <AssociationConnector Association="PortalCasModel.FK_Asigurat_Statut" />
-      </Diagram>
+        <EntityTypeShape EntityType="PortalCasModel.ConcediuMedical" Width="1.5" PointX="5.125" PointY="7.625" />
+        <AssociationConnector Association="PortalCasModel.FK_ConcediuMedical_Asigurat" />
+        <EntityTypeShape EntityType="PortalCasModel.DateRaportSpital" Width="1.5" PointX="9.75" PointY="1.375" />
+        <AssociationConnector Association="PortalCasModel.FK_DateRaportSpital_Investigatie" />
+        <AssociationConnector Association="PortalCasModel.FK_DateRaportSpital_ServiciuMedical" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

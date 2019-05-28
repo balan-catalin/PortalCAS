@@ -157,6 +157,8 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AsiguratController.cs" />
+    <Compile Include="Controllers\ConcediuMedicalController.cs" />
+    <Compile Include="Controllers\RaportSpitaleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -205,6 +207,7 @@
     </EntityDeploy>
     <Content Include="Models\ModelDataBase.edmx.diagram">
       <DependentUpon>ModelDataBase.edmx</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\ServiciiRESTCas - Web Deploy.pubxml" />

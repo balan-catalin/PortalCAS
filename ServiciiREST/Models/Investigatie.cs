@@ -14,8 +14,17 @@ namespace ServiciiREST.Models
     
     public partial class Investigatie
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Investigatie()
+        {
+            this.DateRaportSpital = new HashSet<DateRaportSpital>();
+        }
+    
         public string CodInvestigatie { get; set; }
         public string NumeInvestigatie { get; set; }
         public double CostInvestigatie { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DateRaportSpital> DateRaportSpital { get; set; }
     }
 }

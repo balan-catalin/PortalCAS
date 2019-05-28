@@ -18,11 +18,14 @@ namespace ServiciiREST.Models
         public string CodSpital { get; set; }
         public string CNP { get; set; }
         public string NumarCaz { get; set; }
-        public System.DateTime DataInchidereCaz { get; set; }
+        public Nullable<System.DateTime> DataInchidereCaz { get; set; }
         public string CodDiagnosticPrincipal { get; set; }
         public string CodInvestigatie { get; set; }
-        public double CostAditionalInvestigatie { get; set; }
+        public Nullable<double> CostAditionalInvestigatie { get; set; }
         public string CodServiciuMedical { get; set; }
-        public double CostAditionalServiciuMedical { get; set; }
+        public Nullable<double> CostAditionalServiciuMedical { get; set; }
+    
+        public virtual Investigatie Investigatie { get; set; }
+        public virtual ServiciuMedical ServiciuMedical { get; set; }
     }
 }
