@@ -13,9 +13,11 @@
         <AssociationConnector Association="PortalCasModel.FK_Asigurat_Statut" />
         <EntityTypeShape EntityType="PortalCasModel.ConcediuMedical" Width="1.5" PointX="5.125" PointY="7.625" />
         <AssociationConnector Association="PortalCasModel.FK_ConcediuMedical_Asigurat" />
-        <EntityTypeShape EntityType="PortalCasModel.DateRaportSpital" Width="1.5" PointX="9.75" PointY="1.375" />
+        <EntityTypeShape EntityType="PortalCasModel.Spital" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="PortalCasModel.DateRaportSpital" Width="1.5" PointX="10" PointY="1.875" />
         <AssociationConnector Association="PortalCasModel.FK_DateRaportSpital_Investigatie" />
         <AssociationConnector Association="PortalCasModel.FK_DateRaportSpital_ServiciuMedical" />
+        <AssociationConnector Association="PortalCasModel.FK_DateRaportSpital_Spital" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -29,7 +29,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CodSpital" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CodSpital" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="CNP" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="NumarCaz" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DataInchidereCaz" Type="date" />
@@ -54,6 +54,13 @@
           <Property Name="CodServiciu" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="NumeServiciu" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CostServiciu" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Spital">
+          <Key>
+            <PropertyRef Name="IdSpital" />
+          </Key>
+          <Property Name="IdSpital" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="NumeSpital" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="Statut">
           <Key>
@@ -128,12 +135,25 @@ warning 6002: The table/view 'PortalCas.sys.database_firewall_rules' does not ha
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DateRaportSpital_Spital">
+          <End Role="Spital" Type="Self.Spital" Multiplicity="1" />
+          <End Role="DateRaportSpital" Type="Self.DateRaportSpital" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Spital">
+              <PropertyRef Name="IdSpital" />
+            </Principal>
+            <Dependent Role="DateRaportSpital">
+              <PropertyRef Name="CodSpital" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="PortalCasModelStoreContainer">
           <EntitySet Name="Asigurat" EntityType="Self.Asigurat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ConcediuMedical" EntityType="Self.ConcediuMedical" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DateRaportSpital" EntityType="Self.DateRaportSpital" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Investigatie" EntityType="Self.Investigatie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiciuMedical" EntityType="Self.ServiciuMedical" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Spital" EntityType="Self.Spital" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Statut" EntityType="Self.Statut" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" store:Type="Views" store:Schema="sys">
             <DefiningQuery>SELECT 
@@ -159,6 +179,10 @@ warning 6002: The table/view 'PortalCas.sys.database_firewall_rules' does not ha
           </AssociationSet>
           <AssociationSet Name="FK_DateRaportSpital_ServiciuMedical" Association="Self.FK_DateRaportSpital_ServiciuMedical">
             <End Role="ServiciuMedical" EntitySet="ServiciuMedical" />
+            <End Role="DateRaportSpital" EntitySet="DateRaportSpital" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DateRaportSpital_Spital" Association="Self.FK_DateRaportSpital_Spital">
+            <End Role="Spital" EntitySet="Spital" />
             <End Role="DateRaportSpital" EntitySet="DateRaportSpital" />
           </AssociationSet>
         </EntityContainer>
@@ -223,6 +247,7 @@ warning 6002: The table/view 'PortalCas.sys.database_firewall_rules' does not ha
             <End Role="Asigurat" EntitySet="Asigurat" />
             <End Role="ConcediuMedical" EntitySet="ConcediuMedical" />
           </AssociationSet>
+          <EntitySet Name="Spital" EntityType="PortalCasModel.Spital" />
           <EntitySet Name="DateRaportSpital" EntityType="PortalCasModel.DateRaportSpital" />
           <AssociationSet Name="FK_DateRaportSpital_Investigatie" Association="PortalCasModel.FK_DateRaportSpital_Investigatie">
             <End Role="Investigatie" EntitySet="Investigatie" />
@@ -230,6 +255,10 @@ warning 6002: The table/view 'PortalCas.sys.database_firewall_rules' does not ha
           </AssociationSet>
           <AssociationSet Name="FK_DateRaportSpital_ServiciuMedical" Association="PortalCasModel.FK_DateRaportSpital_ServiciuMedical">
             <End Role="ServiciuMedical" EntitySet="ServiciuMedical" />
+            <End Role="DateRaportSpital" EntitySet="DateRaportSpital" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DateRaportSpital_Spital" Association="PortalCasModel.FK_DateRaportSpital_Spital">
+            <End Role="Spital" EntitySet="Spital" />
             <End Role="DateRaportSpital" EntitySet="DateRaportSpital" />
           </AssociationSet>
           </EntityContainer>
@@ -279,12 +308,20 @@ warning 6002: The table/view 'PortalCas.sys.database_firewall_rules' does not ha
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Spital">
+          <Key>
+            <PropertyRef Name="IdSpital" />
+          </Key>
+          <Property Name="IdSpital" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="NumeSpital" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DateRaportSpital" Relationship="PortalCasModel.FK_DateRaportSpital_Spital" FromRole="Spital" ToRole="DateRaportSpital" />
+        </EntityType>
         <EntityType Name="DateRaportSpital">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CodSpital" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CodSpital" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="CNP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="NumarCaz" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DataInchidereCaz" Type="DateTime" Precision="0" />
@@ -295,6 +332,7 @@ warning 6002: The table/view 'PortalCas.sys.database_firewall_rules' does not ha
           <Property Name="CostAditionalServiciuMedical" Type="Double" />
           <NavigationProperty Name="Investigatie" Relationship="PortalCasModel.FK_DateRaportSpital_Investigatie" FromRole="DateRaportSpital" ToRole="Investigatie" />
           <NavigationProperty Name="ServiciuMedical" Relationship="PortalCasModel.FK_DateRaportSpital_ServiciuMedical" FromRole="DateRaportSpital" ToRole="ServiciuMedical" />
+          <NavigationProperty Name="Spital" Relationship="PortalCasModel.FK_DateRaportSpital_Spital" FromRole="DateRaportSpital" ToRole="Spital" />
         </EntityType>
         <Association Name="FK_DateRaportSpital_Investigatie">
           <End Type="PortalCasModel.Investigatie" Role="Investigatie" Multiplicity="0..1" />
@@ -317,6 +355,18 @@ warning 6002: The table/view 'PortalCas.sys.database_firewall_rules' does not ha
             </Principal>
             <Dependent Role="DateRaportSpital">
               <PropertyRef Name="CodServiciuMedical" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DateRaportSpital_Spital">
+          <End Type="PortalCasModel.Spital" Role="Spital" Multiplicity="1" />
+          <End Type="PortalCasModel.DateRaportSpital" Role="DateRaportSpital" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Spital">
+              <PropertyRef Name="IdSpital" />
+            </Principal>
+            <Dependent Role="DateRaportSpital">
+              <PropertyRef Name="CodSpital" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -382,6 +432,14 @@ warning 6002: The table/view 'PortalCas.sys.database_firewall_rules' does not ha
                 <ScalarProperty Name="DataIncepu" ColumnName="DataIncepu" />
                 <ScalarProperty Name="CNP" ColumnName="CNP" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Spital">
+            <EntityTypeMapping TypeName="PortalCasModel.Spital">
+              <MappingFragment StoreEntitySet="Spital">
+                <ScalarProperty Name="NumeSpital" ColumnName="NumeSpital" />
+                <ScalarProperty Name="IdSpital" ColumnName="IdSpital" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

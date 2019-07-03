@@ -27,5 +27,6 @@ namespace ServiciiREST.Models
     
         public virtual Investigatie Investigatie { get; set; }
         public virtual ServiciuMedical ServiciuMedical { get; set; }
+        public virtual Spital Spital { get; set; }
     }
 }

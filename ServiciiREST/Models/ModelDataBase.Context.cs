@@ -31,6 +31,7 @@ namespace ServiciiREST.Models
         public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
         public virtual DbSet<Asigurat> Asigurat { get; set; }
         public virtual DbSet<ConcediuMedical> ConcediuMedical { get; set; }
+        public virtual DbSet<Spital> Spital { get; set; }
         public virtual DbSet<DateRaportSpital> DateRaportSpital { get; set; }
     }
 }
